@@ -42,7 +42,7 @@ class CoursesPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div div className="jumbotron">
         <h2>Courses</h2>
 
         {this.props.courses.map(this.courseRow)}
