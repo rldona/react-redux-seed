@@ -1,7 +1,9 @@
 import React from 'react';
+
 import {Router, Route, browserHistory, IndexRoute} from 'react-router';
 
 import App from './components/App';
+
 import HomePage from './components/home/HomePage';
 import AboutPage from './components/about/AboutPage';
 import CoursesPage from './components/courses/CoursesPage';

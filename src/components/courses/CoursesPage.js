@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
+
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import * as courseActions from '../../actions/courseActions';
 
 class CoursesPage extends React.Component {
@@ -48,16 +50,15 @@ class CoursesPage extends React.Component {
         <h3>Add course</h3>
 
         <input type="text" onChange={this.onTitleChange} value={this.state.course.title} />
-
         <input type="submit" onClick={this.onClickSave} value="save" />
 
       </div>
     );
   }
+
 }
 
 CoursesPage.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
   courses: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
