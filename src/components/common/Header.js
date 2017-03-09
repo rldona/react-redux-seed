@@ -1,42 +1,75 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
+
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
 import {Link, IndexLink} from 'react-router';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as courseActions from '../../actions/actionsTypes';
+import AppBar from 'material-ui/AppBar';
 
-const Header = (props) => {
+export default class Header extends Component {
 
-  let {courses} = props;
+  constructor(props, context) {
+    super(props, context);
 
-  return (
-    <nav>
-      <IndexLink to="/" activeClassName="active">Home</IndexLink>
-      {' | '}
-      <Link to="/courses" activeClassName="active">Courses ({courses.length})</Link>
-      {' | '}
-      <Link to="/about" activeClassName="active">About</Link>
-    </nav>
-  );
+    this.state = {open: false};
 
-};
+    this.handleToggle = this.handleToggle.bind(this);
+    this.handleClose  = this.handleClose.bind(this);
+    this.open         = this.open.bind(this);
+  }
+
+  handleToggle() {
+    this.setState({open: !this.state.open});
+  }
+
+  handleClose() {
+    this.setState({open: false});
+  }
+
+  open(open) {
+    this.setState({open});
+  }
+
+  render() {
+
+    return (
+      <div>
+
+        <AppBar
+          title="Course list"
+          onTouchTap={this.handleToggle}
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+
+        <Drawer
+          docked={false}
+          width={200}
+          open={this.state.open}
+          onRequestChange={this.open}>
+            <div style={{padding: 20}}>
+              <MenuItem onTouchTap={this.handleClose}>
+                <IndexLink to="/" activeClassName="active">Home</IndexLink>
+              </MenuItem>
+              <MenuItem onTouchTap={this.handleClose}>
+                <Link to="/courses" activeClassName="active">Courses ({this.props.courses.length})</Link>
+              </MenuItem>
+              <MenuItem onTouchTap={this.handleClose}>
+                <Link to="/about" activeClassName="active">About</Link>
+            </MenuItem>
+            </div>
+        </Drawer>
+
+      </div>
+    );
+
+  }
+
+}
 
 Header.propTypes = {
-  courses: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  courses: PropTypes.array.isRequired
 };
-
-function mapStateToProps(state, ownProps) {
-  return {
-     courses: state.courses
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(courseActions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,20 +1,40 @@
 import React, {PropTypes} from 'react';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as courseActions from '../actions/actionsTypes';
+
 import Header from './common/Header';
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="container-fluid">
-        <Header title="Header component" />
-        {this.props.children}
-      </div>
-    );
-  }
-}
+const App = ({courses, children}) => {
 
-App.propTypes = {
-  children: PropTypes.object.isRequired
+  // const {courses, children} = props;
+
+  return (
+    <div>
+      <Header title="Header component" courses={courses} />
+      {children}
+    </div>
+  );
+
 };
 
-export default App;
+App.propTypes = {
+  children: PropTypes.object.isRequired,
+  courses: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+  return {
+     courses: state.courses
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(courseActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,5 +1,16 @@
 import React, {PropTypes} from 'react';
 
+import {List, ListItem} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import Checkbox from 'material-ui/Checkbox';
+import Toggle from 'material-ui/Toggle';
+
+import Paper from 'material-ui/Paper';
+
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -25,6 +36,9 @@ class CoursesPage extends React.Component {
 
     course.title = event.target.value;
 
+    this.floatingLabelFixed = true;
+    this.buttonSecondary    = true;
+
     this.setState({
       course: course
     });
@@ -36,22 +50,37 @@ class CoursesPage extends React.Component {
 
   courseRow(course, index) {
     return (
-      <h4 key={index}>{course.title}</h4>
+      <ListItem
+        key={index}
+        leftCheckbox={<Checkbox />}
+        primaryText={course.title} />
     );
   }
 
   render() {
+
+    const style = {margin: 10, padding: 20};
+    const styleButton = {margin: 10};
+
     return (
-      <div div className="jumbotron">
-        <h2>Courses</h2>
+      <div>
+        <Paper style={style} zDepth={1}>
+          <TextField
+            onChange={this.onTitleChange}
+            value={this.state.course.title}
+            hintText="Add your favorite course"
+            floatingLabelText="Favorite course"
+            floatingLabelFixed={this.floatingLabelFixed}
+            fullWidth={false}
+            />
+          <RaisedButton label="Add course" type="submit" secondary={this.buttonSecondary} style={styleButton} onClick={this.onClickSave} value="save" />
+        </Paper>
 
-        {this.props.courses.map(this.courseRow)}
-
-        <h3>Add course</h3>
-
-        <input type="text" onChange={this.onTitleChange} value={this.state.course.title} />
-        <input type="submit" onClick={this.onClickSave} value="save" />
-
+        <Paper style={style} zDepth={0}>
+          <List>
+            {this.props.courses.map(this.courseRow)}
+          </List>
+        </Paper>
       </div>
     );
   }
