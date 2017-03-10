@@ -17,9 +17,6 @@ import {Provider} from 'react-redux';
 
 const store = configureStore();
 
-// "react-router": "2.4.0",
-// "react-router-redux": "4.0.4",
-
 render (
   <MuiThemeProvider>
     <Provider store={store}>
